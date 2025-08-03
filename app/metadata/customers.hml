@@ -1,0 +1,208 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: customers
+  fields:
+    - name: account
+      type: int_32!
+    - name: address
+      type: string
+    - name: blacklisted
+      type: boolean
+      description: |
+        Indicates whether the customer is blacklisted. This field is used for compliance checks
+        and risk management, ensuring that the bank does not engage with customers who pose a risk.
+        A value of `true` means the customer is blacklisted, while `false` means they are not.
+    - name: customer_id
+      type: int_32!
+    - name: dob
+      type: date
+    - name: name
+      type: string!
+    - name: nationality
+      type: string
+    - name: pep_status
+      type: boolean
+      description: |
+        Politically Exposed Person (PEP) status indicates whether the customer is a PEP.
+        This is used for enhanced due diligence in compliance with AML regulations.
+    - name: risk_level
+      type: string
+      description: |
+        Risk level assigned to the customer based on AML compliance checks.
+        This field helps in categorizing customers for risk management purposes.
+  graphql:
+    typeName: customers
+    inputTypeName: customers_input
+  dataConnectorTypeMapping:
+    - dataConnectorName: ash_promptql_postgres
+      dataConnectorObjectType: customers
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: customers
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - account
+          - address
+          - blacklisted
+          - customer_id
+          - dob
+          - name
+          - nationality
+          - pep_status
+          - risk_level
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: customers_bool_exp
+  operand:
+    object:
+      type: customers
+      comparableFields:
+        - fieldName: account
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: address
+          booleanExpressionType: text_bool_exp
+        - fieldName: blacklisted
+          booleanExpressionType: bool_bool_exp_1
+        - fieldName: customer_id
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: dob
+          booleanExpressionType: date_bool_exp
+        - fieldName: name
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: nationality
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: pep_status
+          booleanExpressionType: bool_bool_exp_1
+        - fieldName: risk_level
+          booleanExpressionType: varchar_bool_exp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: customers_bool_exp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: customers_agg_exp
+  operand:
+    object:
+      aggregatedType: customers
+      aggregatableFields:
+        - fieldName: account
+          aggregateExpression: int_4_agg_exp
+        - fieldName: address
+          aggregateExpression: text_agg_exp
+        - fieldName: blacklisted
+          aggregateExpression: bool_agg_exp
+        - fieldName: customer_id
+          aggregateExpression: int_4_agg_exp
+        - fieldName: dob
+          aggregateExpression: date_agg_exp
+        - fieldName: name
+          aggregateExpression: varchar_agg_exp
+        - fieldName: nationality
+          aggregateExpression: varchar_agg_exp
+        - fieldName: pep_status
+          aggregateExpression: bool_agg_exp
+        - fieldName: risk_level
+          aggregateExpression: varchar_agg_exp
+  count:
+    enable: true
+    returnType: int_64
+  graphql:
+    selectTypeName: customers_agg_exp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: customers_order_by_exp
+  operand:
+    object:
+      orderedType: customers
+      orderableFields:
+        - fieldName: account
+          orderByExpression: int_32_order_by_exp
+        - fieldName: address
+          orderByExpression: string_order_by_exp
+        - fieldName: blacklisted
+          orderByExpression: boolean_order_by_exp
+        - fieldName: customer_id
+          orderByExpression: int_32_order_by_exp
+        - fieldName: dob
+          orderByExpression: date_order_by_exp
+        - fieldName: name
+          orderByExpression: string_order_by_exp
+        - fieldName: nationality
+          orderByExpression: string_order_by_exp
+        - fieldName: pep_status
+          orderByExpression: boolean_order_by_exp
+        - fieldName: risk_level
+          orderByExpression: string_order_by_exp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: customers_order_by_exp
+
+---
+kind: Model
+version: v2
+definition:
+  name: customers
+  description: |
+    Represents customers who have registered with Aurelia Bank. This model stores core information such as:
+    - Personal details like name, date of birth, and nationality
+    - Account information including account number and customer ID
+    - Risk assessments such as risk level, PEP status, and blacklist status
+    - Address and other metadata tied to the customer
+
+    This model is designed to support querying, filtering, and aggregating customer data efficiently for Aurelia Bank's operations. 
+    It serves as a foundational entity for building relationships with other models—such as transactions, compliance audits, or customer support logs.
+  objectType: customers
+  source:
+    dataConnectorName: ash_promptql_postgres
+    collection: customers
+  filterExpressionType: customers_bool_exp
+  aggregateExpression: customers_agg_exp
+  orderByExpression: customers_order_by_exp
+  graphql:
+    selectMany:
+      queryRootField: customers
+      subscription:
+        rootField: customers
+    selectUniques:
+      - queryRootField: customers_by_customer_id
+        uniqueIdentifier:
+          - customer_id
+        subscription:
+          rootField: customers_by_customer_id
+    filterInputTypeName: customers_filter_input
+    aggregate:
+      queryRootField: customers_aggregate
+      subscription:
+        rootField: customers_aggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: customers
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

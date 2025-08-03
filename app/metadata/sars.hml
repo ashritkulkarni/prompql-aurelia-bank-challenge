@@ -1,0 +1,178 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: sars
+  fields:
+    - name: customer_id
+      type: int_32
+    - name: filed_date
+      type: timestamp
+    - name: reason
+      type: string
+      description: |
+        The reason for filing the SAR, detailing the suspicious activity.
+        This field is used to provide context and justification for the SAR.
+    - name: sar_id
+      type: int_32!
+    - name: status
+      type: string
+      description: |
+        The current status of the SAR, such as pending, reviewed, or closed.
+        This field helps track the progress and resolution of the SAR.
+    - name: transaction_id
+      type: int_32
+  graphql:
+    typeName: sars
+    inputTypeName: sars_input
+  dataConnectorTypeMapping:
+    - dataConnectorName: ash_promptql_postgres
+      dataConnectorObjectType: sars
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: sars
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - customer_id
+          - filed_date
+          - reason
+          - sar_id
+          - status
+          - transaction_id
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: sars_bool_exp
+  operand:
+    object:
+      type: sars
+      comparableFields:
+        - fieldName: customer_id
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: filed_date
+          booleanExpressionType: timestamp_bool_exp
+        - fieldName: reason
+          booleanExpressionType: text_bool_exp
+        - fieldName: sar_id
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: status
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: transaction_id
+          booleanExpressionType: int_4_bool_exp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: sars_bool_exp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: sars_agg_exp
+  operand:
+    object:
+      aggregatedType: sars
+      aggregatableFields:
+        - fieldName: customer_id
+          aggregateExpression: int_4_agg_exp
+        - fieldName: filed_date
+          aggregateExpression: timestamp_agg_exp
+        - fieldName: reason
+          aggregateExpression: text_agg_exp
+        - fieldName: sar_id
+          aggregateExpression: int_4_agg_exp
+        - fieldName: status
+          aggregateExpression: varchar_agg_exp
+        - fieldName: transaction_id
+          aggregateExpression: int_4_agg_exp
+  count:
+    enable: true
+    returnType: int_64
+  graphql:
+    selectTypeName: sars_agg_exp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: sars_order_by_exp
+  operand:
+    object:
+      orderedType: sars
+      orderableFields:
+        - fieldName: customer_id
+          orderByExpression: int_32_order_by_exp
+        - fieldName: filed_date
+          orderByExpression: timestamp_order_by_exp
+        - fieldName: reason
+          orderByExpression: string_order_by_exp
+        - fieldName: sar_id
+          orderByExpression: int_32_order_by_exp
+        - fieldName: status
+          orderByExpression: string_order_by_exp
+        - fieldName: transaction_id
+          orderByExpression: int_32_order_by_exp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: sars_order_by_exp
+
+---
+kind: Model
+version: v2
+definition:
+  name: sars
+  description: |
+    Represents Suspicious Activity Reports (SARs) filed by the Aurelia Bank. This model stores core information such as:
+    - customer_id: The unique identifier for the customer associated with the SAR.
+    - filed_date: The date when the SAR was filed.
+    - reason: The reason for filing the SAR, detailing the suspicious activity.
+    - sar_id: The unique identifier for the SAR itself.
+    - status: The current status of the SAR (e.g., pending, reviewed, closed).
+    - transaction_id: The identifier for the transaction linked to the SAR, if applicable.
+
+    This model serves as a foundational entity for tracking and managing SARs. It can be used to build relationships with other models, such as audit logs, compliance reports, or customer profiles.
+  objectType: sars
+  source:
+    dataConnectorName: ash_promptql_postgres
+    collection: sars
+  filterExpressionType: sars_bool_exp
+  aggregateExpression: sars_agg_exp
+  orderByExpression: sars_order_by_exp
+  graphql:
+    selectMany:
+      queryRootField: sars
+      subscription:
+        rootField: sars
+    selectUniques:
+      - queryRootField: sars_by_sar_id
+        uniqueIdentifier:
+          - sar_id
+        subscription:
+          rootField: sars_by_sar_id
+    filterInputTypeName: sars_filter_input
+    aggregate:
+      queryRootField: sars_aggregate
+      subscription:
+        rootField: sars_aggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: sars
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

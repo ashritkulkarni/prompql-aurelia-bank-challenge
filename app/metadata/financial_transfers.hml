@@ -1,0 +1,241 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: financial_transfers
+  fields:
+    - name: amount
+      type: bigdecimal
+    - name: date
+      type: date
+    - name: is_laundering
+      type: boolean
+    - name: laundering_type
+      type: string
+      description: |
+        Type of money laundering activity, such as structuring, layering, or integration.
+        - `structuring`: Breaking down large amounts into smaller transactions to avoid detection.
+        - `layering`: Concealing the source of funds through complex layers of transactions.
+        - `integration`: Reintroducing laundered funds into the economy.
+    - name: payment_currency
+      type: string
+    - name: payment_type
+      type: string
+    - name: received_currency
+      type: string
+    - name: receiver_account
+      type: int_32
+    - name: receiver_bank_location
+      type: string
+    - name: sender_account
+      type: int_32
+    - name: sender_bank_location
+      type: string
+    - name: time
+      type: string
+    - name: transaction_id
+      type: int_32!
+  graphql:
+    typeName: financial_transfers
+    inputTypeName: financial_transfers_input
+  dataConnectorTypeMapping:
+    - dataConnectorName: ash_promptql_postgres
+      dataConnectorObjectType: financial_transfers
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: financial_transfers
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - amount
+          - date
+          - is_laundering
+          - laundering_type
+          - payment_currency
+          - payment_type
+          - received_currency
+          - receiver_account
+          - receiver_bank_location
+          - sender_account
+          - sender_bank_location
+          - time
+          - transaction_id
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: financial_transfers_bool_exp
+  operand:
+    object:
+      type: financial_transfers
+      comparableFields:
+        - fieldName: amount
+          booleanExpressionType: numeric_bool_exp
+        - fieldName: date
+          booleanExpressionType: date_bool_exp
+        - fieldName: is_laundering
+          booleanExpressionType: bool_bool_exp_1
+        - fieldName: laundering_type
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: payment_currency
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: payment_type
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: received_currency
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: receiver_account
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: receiver_bank_location
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: sender_account
+          booleanExpressionType: int_4_bool_exp
+        - fieldName: sender_bank_location
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: time
+          booleanExpressionType: varchar_bool_exp
+        - fieldName: transaction_id
+          booleanExpressionType: int_4_bool_exp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: financial_transfers_bool_exp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: financial_transfers_agg_exp
+  operand:
+    object:
+      aggregatedType: financial_transfers
+      aggregatableFields:
+        - fieldName: amount
+          aggregateExpression: numeric_agg_exp
+        - fieldName: date
+          aggregateExpression: date_agg_exp
+        - fieldName: is_laundering
+          aggregateExpression: bool_agg_exp
+        - fieldName: laundering_type
+          aggregateExpression: varchar_agg_exp
+        - fieldName: payment_currency
+          aggregateExpression: varchar_agg_exp
+        - fieldName: payment_type
+          aggregateExpression: varchar_agg_exp
+        - fieldName: received_currency
+          aggregateExpression: varchar_agg_exp
+        - fieldName: receiver_account
+          aggregateExpression: int_4_agg_exp
+        - fieldName: receiver_bank_location
+          aggregateExpression: varchar_agg_exp
+        - fieldName: sender_account
+          aggregateExpression: int_4_agg_exp
+        - fieldName: sender_bank_location
+          aggregateExpression: varchar_agg_exp
+        - fieldName: time
+          aggregateExpression: varchar_agg_exp
+        - fieldName: transaction_id
+          aggregateExpression: int_4_agg_exp
+  count:
+    enable: true
+    returnType: int_64
+  graphql:
+    selectTypeName: financial_transfers_agg_exp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: financial_transfers_order_by_exp
+  operand:
+    object:
+      orderedType: financial_transfers
+      orderableFields:
+        - fieldName: amount
+          orderByExpression: bigdecimal_order_by_exp
+        - fieldName: date
+          orderByExpression: date_order_by_exp
+        - fieldName: is_laundering
+          orderByExpression: boolean_order_by_exp
+        - fieldName: laundering_type
+          orderByExpression: string_order_by_exp
+        - fieldName: payment_currency
+          orderByExpression: string_order_by_exp
+        - fieldName: payment_type
+          orderByExpression: string_order_by_exp
+        - fieldName: received_currency
+          orderByExpression: string_order_by_exp
+        - fieldName: receiver_account
+          orderByExpression: int_32_order_by_exp
+        - fieldName: receiver_bank_location
+          orderByExpression: string_order_by_exp
+        - fieldName: sender_account
+          orderByExpression: int_32_order_by_exp
+        - fieldName: sender_bank_location
+          orderByExpression: string_order_by_exp
+        - fieldName: time
+          orderByExpression: string_order_by_exp
+        - fieldName: transaction_id
+          orderByExpression: int_32_order_by_exp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: financial_transfers_order_by_exp
+
+---
+kind: Model
+version: v2
+definition:
+  name: financial_transfers
+  description: | 
+     Represents financial transactions between entities, providing detailed information about the transfer.
+     This model includes the following attributes:
+     - Amount: Specifies the monetary value of the transfer.
+     - Date: Indicates the date on which the transfer occurred.
+     - Laundering Status: Flags whether the transfer is suspected or confirmed to involve money laundering activities.
+     - Payment Information: Contains details about the payment method used for the transfer.
+     - Receiver Information: Provides details about the recipient of the transfer.
+     
+     This model is essential for tracking and auditing financial activities, ensuring compliance with regulations and detecting fraudulent or illegal transactions.
+
+  objectType: financial_transfers
+  source:
+    dataConnectorName: ash_promptql_postgres
+    collection: financial_transfers
+  filterExpressionType: financial_transfers_bool_exp
+  aggregateExpression: financial_transfers_agg_exp
+  orderByExpression: financial_transfers_order_by_exp
+  graphql:
+    selectMany:
+      queryRootField: financial_transfers
+      subscription:
+        rootField: financial_transfers
+    selectUniques:
+      - queryRootField: financial_transfers_by_transaction_id
+        uniqueIdentifier:
+          - transaction_id
+        subscription:
+          rootField: financial_transfers_by_transaction_id
+    filterInputTypeName: financial_transfers_filter_input
+    aggregate:
+      queryRootField: financial_transfers_aggregate
+      subscription:
+        rootField: financial_transfers_aggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: financial_transfers
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

@@ -1,0 +1,1793 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: ash_promptql_postgres
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: APP_ASH_PROMPTQL_POSTGRES_READ_URL
+      write:
+        valueFromEnv: APP_ASH_PROMPTQL_POSTGRES_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: APP_ASH_PROMPTQL_POSTGRES_AUTHORIZATION_HEADER
+  schema:
+    version: v0.2
+    schema:
+      capabilities:
+        query:
+          aggregates:
+            count_scalar_type: int8
+      collections:
+        - arguments: {}
+          name: customers
+          type: customers
+          uniqueness_constraints:
+            customers_pkey:
+              unique_columns:
+                - customer_id
+        - arguments: {}
+          name: financial_transfers
+          type: financial_transfers
+          uniqueness_constraints:
+            financial_transfers_pkey:
+              unique_columns:
+                - transaction_id
+        - arguments: {}
+          name: sars
+          type: sars
+          uniqueness_constraints:
+            sars_pkey:
+              unique_columns:
+                - sar_id
+      functions: []
+      object_types:
+        customers:
+          fields:
+            account:
+              type:
+                name: int4
+                type: named
+            address:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            blacklisted:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            customer_id:
+              type:
+                name: int4
+                type: named
+            dob:
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            name:
+              type:
+                name: varchar
+                type: named
+            nationality:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            pep_status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            risk_level:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        delete_customers_by_customer_id_response:
+          description: Responses from the 'delete_customers_by_customer_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: customers
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_financial_transfers_by_transaction_id_response:
+          description: Responses from the 'delete_financial_transfers_by_transaction_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: financial_transfers
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_sars_by_sar_id_response:
+          description: Responses from the 'delete_sars_by_sar_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: sars
+                  type: named
+                type: array
+          foreign_keys: {}
+        financial_transfers:
+          fields:
+            amount:
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+            date:
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            is_laundering:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            laundering_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            payment_currency:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            payment_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            received_currency:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            receiver_account:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            receiver_bank_location:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            sender_account:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            sender_bank_location:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            transaction_id:
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        insert_customers_object:
+          fields:
+            account:
+              type:
+                name: int4
+                type: named
+            address:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            blacklisted:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            customer_id:
+              type:
+                name: int4
+                type: named
+            dob:
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            name:
+              type:
+                name: varchar
+                type: named
+            nationality:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            pep_status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            risk_level:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        insert_customers_response:
+          description: Responses from the 'insert_customers' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: customers
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_financial_transfers_object:
+          fields:
+            amount:
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+            date:
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+            is_laundering:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            laundering_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            payment_currency:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            payment_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            received_currency:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            receiver_account:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            receiver_bank_location:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            sender_account:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            sender_bank_location:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            transaction_id:
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        insert_financial_transfers_response:
+          description: Responses from the 'insert_financial_transfers' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: financial_transfers
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_sars_object:
+          fields:
+            customer_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            filed_date:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            reason:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            sar_id:
+              type:
+                name: int4
+                type: named
+            status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            transaction_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys: {}
+        insert_sars_response:
+          description: Responses from the 'insert_sars' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: sars
+                  type: named
+                type: array
+          foreign_keys: {}
+        sars:
+          fields:
+            customer_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            filed_date:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            reason:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            sar_id:
+              type:
+                name: int4
+                type: named
+            status:
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+            transaction_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys:
+            sars_customer_id_fkey:
+              column_mapping:
+                customer_id:
+                  - customer_id
+              foreign_collection: customers
+            sars_transaction_id_fkey:
+              column_mapping:
+                transaction_id:
+                  - transaction_id
+              foreign_collection: financial_transfers
+        update_column_customers_account:
+          description: Update the 'account' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        update_column_customers_address:
+          description: Update the 'address' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_customers_blacklisted:
+          description: Update the 'blacklisted' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          foreign_keys: {}
+        update_column_customers_customer_id:
+          description: Update the 'customer_id' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        update_column_customers_dob:
+          description: Update the 'dob' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+          foreign_keys: {}
+        update_column_customers_name:
+          description: Update the 'name' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: varchar
+                type: named
+          foreign_keys: {}
+        update_column_customers_nationality:
+          description: Update the 'nationality' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_customers_pep_status:
+          description: Update the 'pep_status' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          foreign_keys: {}
+        update_column_customers_risk_level:
+          description: Update the 'risk_level' column in the 'customers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_amount:
+          description: Update the 'amount' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_date:
+          description: Update the 'date' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: date
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_is_laundering:
+          description: Update the 'is_laundering' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_laundering_type:
+          description: Update the 'laundering_type' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_payment_currency:
+          description: Update the 'payment_currency' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_payment_type:
+          description: Update the 'payment_type' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_received_currency:
+          description: Update the 'received_currency' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_receiver_account:
+          description: Update the 'receiver_account' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_receiver_bank_location:
+          description: Update the 'receiver_bank_location' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_sender_account:
+          description: Update the 'sender_account' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_sender_bank_location:
+          description: Update the 'sender_bank_location' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_time:
+          description: Update the 'time' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_financial_transfers_transaction_id:
+          description: Update the 'transaction_id' column in the 'financial_transfers' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        update_column_sars_customer_id:
+          description: Update the 'customer_id' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys: {}
+        update_column_sars_filed_date:
+          description: Update the 'filed_date' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+          foreign_keys: {}
+        update_column_sars_reason:
+          description: Update the 'reason' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_sars_sar_id:
+          description: Update the 'sar_id' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        update_column_sars_status:
+          description: Update the 'status' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: varchar
+                  type: named
+          foreign_keys: {}
+        update_column_sars_transaction_id:
+          description: Update the 'transaction_id' column in the 'sars' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+          foreign_keys: {}
+        update_customers_by_customer_id_response:
+          description: Responses from the 'update_customers_by_customer_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: customers
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_customers_by_customer_id_update_columns:
+          description: Update the columns of the 'customers' collection
+          fields:
+            account:
+              description: Update the 'account' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_account
+                  type: named
+            address:
+              description: Update the 'address' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_address
+                  type: named
+            blacklisted:
+              description: Update the 'blacklisted' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_blacklisted
+                  type: named
+            customer_id:
+              description: Update the 'customer_id' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_customer_id
+                  type: named
+            dob:
+              description: Update the 'dob' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_dob
+                  type: named
+            name:
+              description: Update the 'name' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_name
+                  type: named
+            nationality:
+              description: Update the 'nationality' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_nationality
+                  type: named
+            pep_status:
+              description: Update the 'pep_status' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_pep_status
+                  type: named
+            risk_level:
+              description: Update the 'risk_level' column in the 'customers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_customers_risk_level
+                  type: named
+          foreign_keys: {}
+        update_financial_transfers_by_transaction_id_response:
+          description: Responses from the 'update_financial_transfers_by_transaction_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: financial_transfers
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_financial_transfers_by_transaction_id_update_columns:
+          description: Update the columns of the 'financial_transfers' collection
+          fields:
+            amount:
+              description: Update the 'amount' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_amount
+                  type: named
+            date:
+              description: Update the 'date' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_date
+                  type: named
+            is_laundering:
+              description: Update the 'is_laundering' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_is_laundering
+                  type: named
+            laundering_type:
+              description: Update the 'laundering_type' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_laundering_type
+                  type: named
+            payment_currency:
+              description: Update the 'payment_currency' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_payment_currency
+                  type: named
+            payment_type:
+              description: Update the 'payment_type' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_payment_type
+                  type: named
+            received_currency:
+              description: Update the 'received_currency' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_received_currency
+                  type: named
+            receiver_account:
+              description: Update the 'receiver_account' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_receiver_account
+                  type: named
+            receiver_bank_location:
+              description: Update the 'receiver_bank_location' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_receiver_bank_location
+                  type: named
+            sender_account:
+              description: Update the 'sender_account' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_sender_account
+                  type: named
+            sender_bank_location:
+              description: Update the 'sender_bank_location' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_sender_bank_location
+                  type: named
+            time:
+              description: Update the 'time' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_time
+                  type: named
+            transaction_id:
+              description: Update the 'transaction_id' column in the 'financial_transfers' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_financial_transfers_transaction_id
+                  type: named
+          foreign_keys: {}
+        update_sars_by_sar_id_response:
+          description: Responses from the 'update_sars_by_sar_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: sars
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_sars_by_sar_id_update_columns:
+          description: Update the columns of the 'sars' collection
+          fields:
+            customer_id:
+              description: Update the 'customer_id' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_customer_id
+                  type: named
+            filed_date:
+              description: Update the 'filed_date' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_filed_date
+                  type: named
+            reason:
+              description: Update the 'reason' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_reason
+                  type: named
+            sar_id:
+              description: Update the 'sar_id' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_sar_id
+                  type: named
+            status:
+              description: Update the 'status' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_status
+                  type: named
+            transaction_id:
+              description: Update the 'transaction_id' column in the 'sars' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_sars_transaction_id
+                  type: named
+          foreign_keys: {}
+      procedures:
+        - arguments:
+            key_customer_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'customers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: customers
+                  type: predicate
+          description: Delete any row on the 'customers' collection using the 'customer_id' key
+          name: delete_customers_by_customer_id
+          result_type:
+            name: delete_customers_by_customer_id_response
+            type: named
+        - arguments:
+            key_transaction_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'financial_transfers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: financial_transfers
+                  type: predicate
+          description: Delete any row on the 'financial_transfers' collection using the 'transaction_id' key
+          name: delete_financial_transfers_by_transaction_id
+          result_type:
+            name: delete_financial_transfers_by_transaction_id_response
+            type: named
+        - arguments:
+            key_sar_id:
+              type:
+                name: int4
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'sars' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: sars
+                  type: predicate
+          description: Delete any row on the 'sars' collection using the 'sar_id' key
+          name: delete_sars_by_sar_id
+          result_type:
+            name: delete_sars_by_sar_id_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_customers_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'customers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: customers
+                  type: predicate
+          description: Insert into the customers table
+          name: insert_customers
+          result_type:
+            name: insert_customers_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_financial_transfers_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'financial_transfers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: financial_transfers
+                  type: predicate
+          description: Insert into the financial_transfers table
+          name: insert_financial_transfers
+          result_type:
+            name: insert_financial_transfers_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_sars_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'sars' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: sars
+                  type: predicate
+          description: Insert into the sars table
+          name: insert_sars
+          result_type:
+            name: insert_sars_response
+            type: named
+        - arguments:
+            key_customer_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'customers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: customers
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'customers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: customers
+                  type: predicate
+            update_columns:
+              type:
+                name: update_customers_by_customer_id_update_columns
+                type: named
+          description: Update any row on the 'customers' collection using the 'customer_id' key
+          name: update_customers_by_customer_id
+          result_type:
+            name: update_customers_by_customer_id_response
+            type: named
+        - arguments:
+            key_transaction_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'financial_transfers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: financial_transfers
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'financial_transfers' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: financial_transfers
+                  type: predicate
+            update_columns:
+              type:
+                name: update_financial_transfers_by_transaction_id_update_columns
+                type: named
+          description: Update any row on the 'financial_transfers' collection using the 'transaction_id' key
+          name: update_financial_transfers_by_transaction_id
+          result_type:
+            name: update_financial_transfers_by_transaction_id_response
+            type: named
+        - arguments:
+            key_sar_id:
+              type:
+                name: int4
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'sars' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: sars
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'sars' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: sars
+                  type: predicate
+            update_columns:
+              type:
+                name: update_sars_by_sar_id_update_columns
+                type: named
+          description: Update any row on the 'sars' collection using the 'sar_id' key
+          name: update_sars_by_sar_id
+          result_type:
+            name: update_sars_by_sar_id_response
+            type: named
+      request_arguments: null
+      scalar_types:
+        bool:
+          aggregate_functions:
+            bool_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+            bool_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+            every:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: bool
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: boolean
+        date:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: date
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: date
+        int4:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type: int8
+              type: sum
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: int4
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: int32
+        int8:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: int8
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: int64
+        numeric:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: numeric
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: bigdecimal
+        text:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _ilike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _in:
+              type: in
+            _iregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _like:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nilike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _niregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nlike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _regex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            starts_with:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            ts_match_tt:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: string
+        timestamp:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: timestamp
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: timestamp
+        varchar:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _ilike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _in:
+              type: in
+            _iregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _like:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nilike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _niregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nlike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _regex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            starts_with:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            ts_match_tt:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: string
+    capabilities:
+      capabilities:
+        mutation:
+          explain: {}
+          transactional: {}
+        query:
+          aggregates: {}
+          exists:
+            nested_collections: {}
+          explain: {}
+          nested_fields:
+            aggregates: {}
+            filter_by: {}
+            order_by: {}
+          variables: {}
+        relationships:
+          nested:
+            array: {}
+          order_by_aggregate: {}
+          relation_comparisons: {}
+      version: 0.2.4
