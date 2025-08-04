@@ -27,8 +27,6 @@ definition:
     APP_ASH_PROMPTQL_POSTGRES_WRITE_URL:
       fromEnv: APP_ASH_PROMPTQL_POSTGRES_WRITE_URL
   connectors:
-    - path: connector/ash_promptql_mongo/connector.yaml
-      connectorLinkName: ash_promptql_mongo
     - path: connector/ash_promptql_mongo_2/connector.yaml
       connectorLinkName: ash_promptql_mongo_2
     - path: connector/ash_promptql_postgres/connector.yaml
